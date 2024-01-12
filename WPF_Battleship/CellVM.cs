@@ -15,7 +15,7 @@ namespace WPF_Battleship
             get =>  missVisibility; 
             private set => Set(ref missVisibility, value); 
         }
-
+        //Метод создает промах
         public void SetMiss()
         {
             Miss = Visibility.Visible;
