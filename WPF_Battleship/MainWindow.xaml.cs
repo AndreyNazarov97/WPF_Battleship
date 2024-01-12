@@ -8,6 +8,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 
 namespace WPF_Battleship
 {
@@ -16,9 +17,25 @@ namespace WPF_Battleship
     /// </summary>
     public partial class MainWindow : Window
     {
+        BattlsshipVM batllshipVM = new BattlsshipVM();
+
         public MainWindow()
         {
+            DataContext = batllshipVM;
+
             InitializeComponent();
+        }
+
+ 
+        private void Border_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            var brd = sender as Border;
+            if (brd != null )
+            {
+                var cellVM = brd.DataContext as CellVM;
+                if ( cellVM != null ) cellVM.SetMiss();
+            }
+
         }
     }
 }

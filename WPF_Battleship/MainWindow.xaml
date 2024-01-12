@@ -5,8 +5,79 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WPF_Battleship"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="Морской бой" Height="450" Width="800" Icon="/BattleshipIcon.png">
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="2*"/>
+        </Grid.ColumnDefinitions>
+        <StackPanel Grid.Column="0" Margin="15">
+            <TextBlock d:Text="0:00" Text="{Binding Time}"
+                       FontSize="32" 
+                       HorizontalAlignment="Center" VerticalAlignment="Center"
+                       Margin="0, 10"/>
+            <TextBlock Text="{Binding Steps}" FontSize="32" d:Text="Step : 5"
+                       HorizontalAlignment="Center"/>
+            <TextBlock Text="{Binding Goal}" FontSize="32"/>
+        </StackPanel>
 
+        <ItemsControl Grid.Column="1"
+                      ItemsSource="{Binding OurMap}"
+                      HorizontalAlignment="Center"
+                      VerticalAlignment="Center">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <ItemsControl ItemsSource="{Binding}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel Orientation="Horizontal"/>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Border BorderBrush="#44A" BorderThickness="1"
+                        Width="30" Height="30" Margin="0,0,-1,-1">
+                                </Border>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+            
+        </ItemsControl>
+
+        <ItemsControl Grid.Column="2"
+              ItemsSource="{Binding EnemyMap}"
+              HorizontalAlignment="Center"
+              VerticalAlignment="Center">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <ItemsControl ItemsSource="{Binding}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel Orientation="Horizontal"/>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Border BorderBrush="#44A" BorderThickness="1"
+                                        Background="Transparent"
+                                        Width="30" Height="30" Margin="0,0,-1,-1"
+                                        MouseDown="Border_MouseDown">
+                                    <Grid>
+                                        <Ellipse Width="7" Height="7" Fill="Red"
+                                                 HorizontalAlignment="Center"
+                                                 VerticalAlignment="Center"
+                                                 Visibility="{Binding Miss}"/>
+                                    </Grid>
+                                </Border>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+
+        </ItemsControl>
     </Grid>
 </Window>
