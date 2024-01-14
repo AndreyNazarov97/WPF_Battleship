@@ -11,12 +11,24 @@ namespace WPF_Battleship
     {
         DispatcherTimer timer;
         DateTime startTime;
-
-
         string time = "";
 
-        public CellVM[][] OurMap {  get; set; }
-        public CellVM[][] EnemyMap {  get; set; }
+        string enemyMap =
+            @"
+***********
+***********
+***********
+*XXXXXXXX*
+***********
+***********
+***********
+***********
+***********
+***********
+";
+
+        public MapVM OurMap {  get; set; }
+        public MapVM EnemyMap {  get; set; }
         public string Time 
         { 
             get => time;
@@ -28,24 +40,23 @@ namespace WPF_Battleship
             timer.Interval = TimeSpan.FromMilliseconds(100);
             timer.Tick += Timer_Tick;
 
-            OurMap = CreateMap();
-            EnemyMap = CreateMap();
+            OurMap = new MapVM();
+            OurMap.SetShips(
+                new ShipVM(4, (1,1)),
+                new ShipVM(3, (8,1), ShipDirection.Vertical),
+                new ShipVM(3, (6,1), ShipDirection.Vertical),
+                new ShipVM(2, (3,5), ShipDirection.Vertical),
+                new ShipVM(2, (7, 5)),
+                new ShipVM(2, (8, 7)),
+                new ShipVM(1, (0, 7)),
+                new ShipVM(1, (2, 9)),
+                new ShipVM(1, (9, 9)),
+                new ShipVM(1, (4, 9))
+                );
+            EnemyMap = new MapVM(enemyMap);
+
         }
 
-
-        CellVM[][] CreateMap()
-        {
-            var map = new CellVM[10][];
-            for (int i = 0; i < 10; i++)
-            {
-                map[i] = new CellVM[10];
-                for (int j = 0; j < 10; j++)
-                {
-                    map[i][j] = new CellVM();
-                }
-            }
-            return map;
-        }
         private void Timer_Tick(object? sender, EventArgs e)
         {
             var now = DateTime.Now;
@@ -62,6 +73,11 @@ namespace WPF_Battleship
         public void Stop()
         {
             timer.Stop();
+        }
+
+        internal void EnemyHit(int x, int y)
+        {
+            OurMap[x,y].ToShoot();
         }
     }
 }

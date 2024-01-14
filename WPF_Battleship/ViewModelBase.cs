@@ -12,11 +12,21 @@ namespace WPF_Battleship
             if(!field.Equals(value) || field == null) 
             {
                 field = value;
-                PropertyChanged(this, new PropertyChangedEventArgs(propName));
-            }
-            
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propName));
+            }  
         }
-        protected void Fire(params string[] names)
+        protected void Set<T>(ref T field, T value, params string[] propNames)
+        {
+            if (!field.Equals(value) || field == null)
+            {
+                field = value;
+                foreach(var prop in propNames)
+                {
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
+                }
+            }
+        }
+        protected void Notify(params string[] names)
         {
             foreach (var name in names)
             {
