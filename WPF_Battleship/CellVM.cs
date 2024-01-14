@@ -9,16 +9,32 @@ namespace WPF_Battleship
 {
     internal class CellVM : ViewModelBase
     {
-        Visibility missVisibility = Visibility.Collapsed;
-        public Visibility Miss 
+
+        bool ship, shoot;
+
+        public CellVM(char state = '*')
         {
-            get =>  missVisibility; 
-            private set => Set(ref missVisibility, value); 
+            ship = state == 'X';
         }
 
-        public void SetMiss()
+        public Visibility Miss 
         {
-            Miss = Visibility.Visible;
+            get =>  shoot && !ship ? Visibility.Visible : Visibility.Collapsed; 
+        }
+        public Visibility Hit
+        {
+            get => shoot && ship ? Visibility.Visible : Visibility.Collapsed;
+        }
+        
+        public void ToShoot()
+        {
+            shoot = true;
+            Notify("Miss", "Hit");
+        }
+
+        public void PlaceShip()
+        {
+            ship = true;
         }
     }
 }

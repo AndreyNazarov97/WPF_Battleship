@@ -18,6 +18,7 @@ namespace WPF_Battleship
     public partial class MainWindow : Window
     {
         BattlsshipVM batllshipVM = new BattlsshipVM();
+        Random rnd = new Random();
 
         public MainWindow()
         {
@@ -33,9 +34,12 @@ namespace WPF_Battleship
             if (brd != null )
             {
                 var cellVM = brd.DataContext as CellVM;
-                if ( cellVM != null ) cellVM.SetMiss();
+                if ( cellVM != null ) cellVM.ToShoot();
             }
+            var x = rnd.Next(10);
+            var y = rnd.Next(10);
 
+            batllshipVM.EnemyHit(x,y);
         }
     }
 }

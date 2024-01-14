@@ -5,7 +5,72 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WPF_Battleship"
         mc:Ignorable="d"
-        Title="Морской бой" Height="450" Width="800" Icon="/BattleshipIcon.png">
+        Title="Морской бой" Height="450" Width="800" Icon="/Icons/BattleshipIcon.png">
+    <Window.Resources>
+        <DataTemplate DataType="{x:Type local:CellVM}">
+            <Border BorderBrush="#44A" BorderThickness="1"
+            Background="Transparent"
+            Width="31" Height="31" Margin="0,0,-1,-1"
+            MouseDown="Border_MouseDown">
+                <Grid>
+                    <Ellipse Width="7" Height="7" Fill="Red"
+                     HorizontalAlignment="Center"
+                     VerticalAlignment="Center"
+                     Visibility="{Binding Miss}"/>
+                    <Path Data="M4,4 L25,25 M26,4 L4,25"
+                  Stroke="red" StrokeThickness="3"
+                  Visibility="{Binding Hit}"/>
+                </Grid>
+            </Border>
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type local:MapVM}">
+            <Grid>
+                <ItemsControl ItemsSource="{Binding Ships}"
+                              Width="300" Height="300">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <Canvas/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Rectangle Width="{Binding RangView}" Height="25"
+                       RadiusX="40" RadiusY="20">
+                                <Rectangle.Fill>
+                                    <LinearGradientBrush EndPoint="1,0">
+                                        <GradientStop Color="Silver" Offset="0"/>
+                                        <GradientStop Color="Transparent" Offset="0.5"/>
+                                        <GradientStop Color="Silver" Offset="1"/>
+                                    </LinearGradientBrush>
+                                </Rectangle.Fill>
+                                <Rectangle.RenderTransform>
+                                    <TransformGroup>
+                                        <RotateTransform Angle="{Binding Angle}" CenterX="12.5" CenterY="12.5"/>
+                                        <TranslateTransform X="{Binding X}" Y="{Binding Y}"/>
+                                    </TransformGroup>
+                                </Rectangle.RenderTransform>
+                            </Rectangle>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+  
+                <ItemsControl ItemsSource="{Binding Map}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <ItemsControl ItemsSource="{Binding}">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <StackPanel Orientation="Horizontal"/>
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                            </ItemsControl>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </Grid>
+        </DataTemplate>
+    </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
@@ -22,62 +87,14 @@
             <TextBlock Text="{Binding Goal}" FontSize="32"/>
         </StackPanel>
 
-        <ItemsControl Grid.Column="1"
-                      ItemsSource="{Binding OurMap}"
-                      HorizontalAlignment="Center"
-                      VerticalAlignment="Center">
-            <ItemsControl.ItemTemplate>
-                <DataTemplate>
-                    <ItemsControl ItemsSource="{Binding}">
-                        <ItemsControl.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <StackPanel Orientation="Horizontal"/>
-                            </ItemsPanelTemplate>
-                        </ItemsControl.ItemsPanel>
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <Border BorderBrush="#44A" BorderThickness="1"
-                        Width="30" Height="30" Margin="0,0,-1,-1">
-                                </Border>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
-            
-        </ItemsControl>
+        <ContentControl Grid.Column="1"
+                        Content="{Binding OurMap}"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"/>
+        <ContentControl Grid.Column="2"
+                Content="{Binding EnemyMap}"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"/>
 
-        <ItemsControl Grid.Column="2"
-              ItemsSource="{Binding EnemyMap}"
-              HorizontalAlignment="Center"
-              VerticalAlignment="Center">
-            <ItemsControl.ItemTemplate>
-                <DataTemplate>
-                    <ItemsControl ItemsSource="{Binding}">
-                        <ItemsControl.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <StackPanel Orientation="Horizontal"/>
-                            </ItemsPanelTemplate>
-                        </ItemsControl.ItemsPanel>
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <Border BorderBrush="#44A" BorderThickness="1"
-                                        Background="Transparent"
-                                        Width="30" Height="30" Margin="0,0,-1,-1"
-                                        MouseDown="Border_MouseDown">
-                                    <Grid>
-                                        <Ellipse Width="7" Height="7" Fill="Red"
-                                                 HorizontalAlignment="Center"
-                                                 VerticalAlignment="Center"
-                                                 Visibility="{Binding Miss}"/>
-                                    </Grid>
-                                </Border>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
-
-        </ItemsControl>
     </Grid>
 </Window>
