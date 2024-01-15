@@ -25,6 +25,7 @@ namespace WPF_Battleship
             DataContext = batllshipVM;
 
             InitializeComponent();
+
         }
 
  

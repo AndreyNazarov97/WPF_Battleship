@@ -16,14 +16,13 @@ namespace WPF_Battleship
     class ShipVM : ViewModelBase
     {
 
-		private int rang = 1;
-        
+		private int rang = 1;       
 		public int Rang
 		{
 			get => rang;
 			set => Set(ref rang, value, "RangView");
 		}
-		public int RangView => Rang * App.CellSize - 5;
+		public int RangView => Rang * (App.CellSize - 5);
 
         ShipDirection dir = ShipDirection.Horisontal;
 		public ShipDirection Direction
