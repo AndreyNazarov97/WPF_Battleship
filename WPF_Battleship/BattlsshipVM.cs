@@ -53,7 +53,8 @@ namespace WPF_Battleship
                 new ShipVM(1, (9, 9)),
                 new ShipVM(1, (4, 9))
                 );
-            EnemyMap = new MapVM(enemyMap);
+            EnemyMap = new MapVM();
+            EnemyMap.FillMap(0,4,3,2,1);
 
         }
 
